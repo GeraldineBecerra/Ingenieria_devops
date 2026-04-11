@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getVentasByUsuario, getDetallesByVenta } from "../api/compras";
 import type { Venta, Detalle } from "../api/interfaces/compras.interface";
 
