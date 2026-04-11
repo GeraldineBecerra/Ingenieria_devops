@@ -1,0 +1,9 @@
+name: PokeCardStore
+on:
+    push: 
+        branches: [main, dev]
+    pull_request: 
+        branches: [main]
+jobs:
+    build:
+        runs-on: ubuntu-latest
