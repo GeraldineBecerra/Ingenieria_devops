@@ -1,6 +1,6 @@
 import { Form, Row, Col, Button, Container, Alert, Modal } from "react-bootstrap";
 import "./Formulario.css";
-import { useState, type FormEvent, useEffect } from "react";
+import { useState, type FormEvent, useEffect, useMemo } from "react";
 import { useCart } from "../../cartas/context/CartContext";
 import { useNavigate } from "react-router-dom";
 
@@ -28,11 +28,11 @@ export const Formulario = () => {
     const [showModal, setShowModal] = useState(false);
 
   const regiones = ["Metropolitana", "Valparaíso", "Biobío"];
-  const comunasPorRegion: Record<string, string[]> = {
+  const comunasPorRegion = useMemo<Record<string, string[]>>(() => ({
     Metropolitana: ["Santiago", "Puente Alto", "Maipú"],
     Valparaíso: ["Valparaíso", "Viña del Mar", "Quilpué"],
     Biobío: ["Concepción", "Talcahuano", "Hualpén"],
-  };
+  }), []);
   const comunasFiltradas = region ? comunasPorRegion[region] : [];
 
   const { cart, totalAmount } = useCart();
@@ -79,7 +79,7 @@ export const Formulario = () => {
     };
 
     fetchDireccion();
-  }, []);
+  }, [comunasPorRegion]);
 
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

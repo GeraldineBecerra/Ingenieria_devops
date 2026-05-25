@@ -1,0 +1,48 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pokecardstore-frontend:latest
+    container_name: pokecardstore-frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - nginx_logs:/var/log/nginx
+    networks:
+      - pokecardstore-network
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+        reservations:
+          cpus: "0.10"
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080 > /dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+networks:
+  pokecardstore-network:
+    driver: bridge
+
+volumes:
+  nginx_logs:
+    driver: local
