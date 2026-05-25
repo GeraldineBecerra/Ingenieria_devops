@@ -46,7 +46,7 @@ jobs:
         run: docker build -t pokecardstore-frontend:ci .
 
       - name: Scan Docker image vulnerabilities
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: pokecardstore-frontend:ci
           format: table
