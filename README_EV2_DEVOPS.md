@@ -176,7 +176,7 @@ Se configuro el pipeline `.github/workflows/build.yml`, ejecutado automaticament
 | Build app | `npm run build` | Compilar aplicacion |
 | Build Docker | `docker build` | Construir imagen del frontend |
 | Escaneo imagen | Trivy | Bloquear vulnerabilidades altas o criticas corregibles |
-| SonarCloud | SonarQube Scan Action | Analisis estatico y Quality Gate |
+| SonarCloud | SonarQube Scan Action v6 | Analisis estatico y Quality Gate |
 | Validar Compose | `docker compose config` | Validar sintaxis de orquestacion |
 | Despliegue simulado | `docker compose up -d --build` | Levantar entorno simulado |
 | Healthcheck | `curl http://localhost:8080` | Confirmar disponibilidad |
@@ -226,6 +226,7 @@ sonar.sources=src
 sonar.tests=__tests__
 sonar.javascript.lcov.reportPaths=coverage/lcov.info
 sonar.qualitygate.wait=true
+sonar.scanner.skipJreProvisioning=true
 ```
 
 Para que GitHub Actions ejecute SonarCloud correctamente, el repositorio debe tener configurado el secreto:
