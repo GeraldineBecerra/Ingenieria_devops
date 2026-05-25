@@ -188,7 +188,7 @@ Se configuro el pipeline `.github/workflows/build.yml`, ejecutado automaticament
 
 ## 8. Seguridad y bloqueos
 
-La evaluacion solicita alertas o bloqueos si el analisis de seguridad falla. Para cumplir este punto, el pipeline falla automaticamente cuando:
+El pipeline falla automaticamente cuando:
 
 - ESLint detecta errores.
 - Alguna prueba automatizada falla.
@@ -229,7 +229,7 @@ sonar.qualitygate.wait=true
 sonar.scanner.skipJreProvisioning=true
 ```
 
-Para que GitHub Actions ejecute SonarCloud correctamente, el repositorio debe tener configurado el secreto:
+Para que GitHub Actions ejecute SonarCloud correctamente, se configura secret:
 
 ```text
 SONAR_TOKEN
@@ -238,6 +238,9 @@ SONAR_TOKEN
 ### Evidencia
 
 ![Configuracion SonarCloud](image-7.png)
+
+![Configuracion SonarCloud]<img width="896" height="439" alt="image" src="https://github.com/user-attachments/assets/1114d250-28bd-4a8e-9267-21e68d6e62c9" />
+
 
 ## 11. Pruebas automatizadas y cobertura
 
