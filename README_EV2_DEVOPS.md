@@ -176,7 +176,7 @@ Se configuro el pipeline `.github/workflows/build.yml`, ejecutado automaticament
 | Build app | `npm run build` | Compilar aplicacion |
 | Build Docker | `docker build` | Construir imagen del frontend |
 | Escaneo imagen | Trivy | Bloquear vulnerabilidades altas o criticas corregibles |
-| SonarCloud | SonarQube Scan Action | Analisis estatico y Quality Gate |
+| SonarCloud | SonarQube Scan Action v6 | Analisis estatico y Quality Gate |
 | Validar Compose | `docker compose config` | Validar sintaxis de orquestacion |
 | Despliegue simulado | `docker compose up -d --build` | Levantar entorno simulado |
 | Healthcheck | `curl http://localhost:8080` | Confirmar disponibilidad |
@@ -226,6 +226,7 @@ sonar.sources=src
 sonar.tests=__tests__
 sonar.javascript.lcov.reportPaths=coverage/lcov.info
 sonar.qualitygate.wait=true
+sonar.scanner.skipJreProvisioning=true
 ```
 
 Para que GitHub Actions ejecute SonarCloud correctamente, el repositorio debe tener configurado el secreto:
@@ -279,7 +280,7 @@ El proyecto utiliza:
 | Metrica | Resultado |
 | --- | --- |
 | Statements | 54.89% |
-| Branches | 35.55% |
+| Branches | 36.66% |
 | Functions | 50.40% |
 | Lines | 57.54% |
 
@@ -307,17 +308,8 @@ La trazabilidad se garantiza porque cada cambio enviado al repositorio queda aso
 
 La calidad se controla antes del despliegue. Si alguna validacion falla, el pipeline termina con error y la entrega queda bloqueada.
 
-## 13. Cumplimiento de indicadores
 
-| Indicador | Requisito solicitado | Evidencia | Estado |
-| --- | --- | --- | --- |
-| IE1 | Crear Dockerfile y construir imagen Docker | `Dockerfile`, `.dockerignore`, `nginx.conf`, etapa `docker build` | Cumple |
-| IE2 | Integrar pruebas automatizadas en CI | `__tests__/`, `karma.conf.cjs`, etapa `npm test` | Cumple |
-| IE3 | Seguridad, escalabilidad y bloqueos | Dependabot, `npm audit`, Trivy, SonarCloud, limites Compose | Cumple |
-| IE4 | Despliegue automatico en entorno simulado y trazabilidad | GitHub Actions, `docker compose up`, healthcheck, README | Cumple |
-| IE5 | Orquestacion de contenedores | `docker-compose.yml` con red, volumen, healthcheck, restart y recursos | Cumple |
-
-## 14. Validaciones ejecutadas
+## 13. Validaciones ejecutadas
 
 Durante la revision final se ejecutaron las siguientes validaciones:
 

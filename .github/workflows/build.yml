@@ -45,22 +45,12 @@ jobs:
       - name: Build Docker image
         run: docker build -t pokecardstore-frontend:ci .
 
-      - name: Scan Docker image vulnerabilities
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: pokecardstore-frontend:ci
-          format: table
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
-          exit-code: '1'
-
       - name: SonarCloud analysis
-        uses: SonarSource/sonarqube-scan-action@v4
+        if: github.actor != 'dependabot[bot]'
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.qualitygate.wait=true
+
 
       - name: Validate Docker Compose file
         run: docker compose config

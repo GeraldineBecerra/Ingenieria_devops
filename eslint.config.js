@@ -7,17 +7,51 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   globalIgnores(['dist', 'coverage', 'node_modules']),
+
+  js.configs.recommended,
+
+  ...tseslint.configs.recommended,
+
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+    },
+
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      ...reactRefresh.configs.vite.rules,
+    },
+  },
+
+  {
+    files: ['karma.conf.cjs'],
+
+    languageOptions: {
+      globals: globals.node,
+    },
+
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+
+  {
+    files: ['test-main.js'],
+
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        __karma__: 'readonly',
+        require: 'readonly',
+      },
     },
   },
 ])
