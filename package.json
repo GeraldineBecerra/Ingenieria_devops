@@ -14,12 +14,12 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.5.3",
-    "axios": "^1.13.2",
+    "axios": "^1.16.1",
     "bootstrap": "^5.3.8",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.4"
+    "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
