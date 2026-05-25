@@ -6,14 +6,20 @@ on:
   pull_request:
     branches: [main, dev]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   quality:
-    name: Build, Test and Docker Validation
+    name: Build, Test, Security and Deploy Validation
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,11 +36,31 @@ jobs:
       - name: Run unit tests with coverage
         run: npm test -- --single-run
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Build application
         run: npm run build
 
       - name: Build Docker image
         run: docker build -t pokecardstore-frontend:ci .
+
+      - name: Scan Docker image vulnerabilities
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: pokecardstore-frontend:ci
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+
+      - name: SonarCloud analysis
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
 
       - name: Validate Docker Compose file
         run: docker compose config
@@ -42,8 +68,18 @@ jobs:
       - name: Start Docker Compose stack
         run: docker compose up -d --build
 
-      - name: Check running containers
-        run: docker ps
+      - name: Check simulated deployment health
+        run: |
+          docker ps
+          for i in {1..12}; do
+            if curl --fail --silent http://localhost:8080 > /dev/null; then
+              echo "Simulated deployment is healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+          docker compose logs frontend
+          exit 1
 
       - name: Stop Docker Compose stack
         if: always()
