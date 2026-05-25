@@ -46,6 +46,7 @@ jobs:
         run: docker build -t pokecardstore-frontend:ci .
 
       - name: SonarCloud analysis
+        if: github.actor != 'dependabot[bot]'
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
