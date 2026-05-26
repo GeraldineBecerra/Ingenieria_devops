@@ -18,7 +18,7 @@
     "bootstrap": "^5.3.8",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.1.1",
+    "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@types/jasmine": "^5.1.12",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
+    "@types/react-dom": "^19.2.3",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react-swc": "^4.1.0",
     "babel-loader": "^10.0.0",
